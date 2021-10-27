@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chromatic</title>
+    <style>
+        html {
+            background: #000;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            min-width: 100vw;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body style="background:#000; transition: 6s;">    
+    <script>
+        let red = 0;
+        let green = 50;
+        let blue = 50;
+        let opacity = 0;
+        let transition = 6 // in second
+        let param = location.search?.split('?')[1]?.split('=')
+
+        if (param && param[0] === 'transition' && /\d+/.test(param[1])) {
+            let trans = +param[1]
+            transition = trans < 1 ? trans + 1 : (trans > 20 ? 10 : trans)
+        }
+
+        document.body.style.transition = `${transition}s`
+        
+        function getRandomIntInclusive(min, max) {
+            min = Math.ceil(min);
+            max = Math.floor(max);
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+
+        function operator () {
+            red = getRandomIntInclusive(0, 255)
+            green = getRandomIntInclusive(0, 255)
+            blue = getRandomIntInclusive(0, 255)
+            opacity = getRandomIntInclusive(0, 10) + 1 / 10 // canceled
+            document.body.style.background = `rgba(${red}, ${green}, ${blue}, ${opacity})`
+        }
+
+        operator()
+
+        setInterval(() => {
+            operator()
+        }, (transition * 1000) / 2)
+    </script>
+</body>
+</html>
